@@ -5,49 +5,49 @@ import domain.frame.Frame;
 
 public class Gutter implements State {
 
-  private BowlPin firstBowlPins;
-  private BowlPin secondBowlPins;
+    private BowlPin firstBowlPins;
+    private BowlPin secondBowlPins;
 
-  public Gutter(BowlPin firstBowlPins) {
-    this.firstBowlPins = firstBowlPins;
-  }
-
-  public Gutter(BowlPin firstBowlPins, BowlPin secondBowlPins) {
-    this.firstBowlPins = firstBowlPins;
-    this.secondBowlPins = secondBowlPins;
-  }
-
-  @Override
-  public void roll(Frame frame, BowlPin fallenPins) {
-    if (fallenPins.isSpare(firstBowlPins)) {
-      frame.changeState(new Spare(firstBowlPins, fallenPins));
-      return;
+    public Gutter(BowlPin firstBowlPins) {
+        this.firstBowlPins = firstBowlPins;
     }
 
-    if (fallenPins.isGutter()) {
-      frame.changeState(new Gutter(firstBowlPins, fallenPins));
-      return;
+    public Gutter(BowlPin firstBowlPins, BowlPin secondBowlPins) {
+        this.firstBowlPins = firstBowlPins;
+        this.secondBowlPins = secondBowlPins;
     }
 
-    frame.changeState(new Miss(firstBowlPins, fallenPins));
-  }
+    @Override
+    public void roll(Frame frame, BowlPin fallenPins) {
+        if (fallenPins.isSpare(firstBowlPins)) {
+            frame.changeState(new Spare(firstBowlPins, fallenPins));
+            return;
+        }
 
-  @Override
-  public boolean isEnd(Frame frame) {
-    return hasSecondBowlPins();
-  }
+        if (fallenPins.isGutter()) {
+            frame.changeState(new Gutter(firstBowlPins, fallenPins));
+            return;
+        }
 
-  @Override
-  public int getScore() {
-    return hasSecondBowlPins() ? firstBowlPins.sum(secondBowlPins) : firstBowlPins.getPins();
-  }
+        frame.changeState(new Miss(firstBowlPins, fallenPins));
+    }
 
-  @Override
-  public String toString() {
-    return hasSecondBowlPins() ? firstBowlPins + "|" + secondBowlPins : firstBowlPins + "";
-  }
+    @Override
+    public boolean isEnd(Frame frame) {
+        return hasSecondBowlPins();
+    }
 
-  private boolean hasSecondBowlPins() {
-    return secondBowlPins != null;
-  }
+    @Override
+    public int getScore() {
+        return hasSecondBowlPins() ? firstBowlPins.sum(secondBowlPins) : firstBowlPins.getPins();
+    }
+
+    @Override
+    public String toString() {
+        return hasSecondBowlPins() ? firstBowlPins + "|" + secondBowlPins : firstBowlPins + "";
+    }
+
+    private boolean hasSecondBowlPins() {
+        return secondBowlPins != null;
+    }
 }

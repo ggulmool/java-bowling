@@ -5,23 +5,23 @@ import domain.FrameResults;
 
 public class Player {
 
-  private String name;
-  private FrameResults results;
+    private String name;
+    private FrameResults results;
 
-  public Player(String name, FrameResults results) {
-    this.name = name;
-    this.results = results;
-  }
+    public Player(String name, FrameResults results) {
+        this.name = name;
+        this.results = results;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public FrameResults getFrameResults() {
-    return results;
-  }
+    public FrameResults getFrameResults() {
+        return results;
+    }
 
-  public void setResult(int round, FrameResult result) {
-    results.add(round, result);
-  }
+    public void setResult(int round, FrameResult result) {
+        results.add(round, result);
+    }
 }

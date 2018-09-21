@@ -5,56 +5,57 @@ import domain.frame.Frame;
 
 public class NoneState implements State {
 
-  private BowlPin firstBowlPins;
+    private BowlPin firstBowlPins;
 
-  public NoneState() {}
-
-  @Override
-  public void roll(Frame frame, BowlPin fallenPins) {
-    if (hasFirstBowlPins()) {
-      if (fallenPins.isSpare(firstBowlPins)) {
-        frame.changeState(new Spare(firstBowlPins, fallenPins));
-        return;
-      }
-
-      if (fallenPins.isGutter()) {
-        frame.changeState(new Gutter(firstBowlPins, fallenPins));
-        return;
-      }
-
-      frame.changeState(new Miss(firstBowlPins, fallenPins));
-      return;
+    public NoneState() {
     }
 
-    if (fallenPins.isStrike()) {
-      frame.changeState(new Strike(fallenPins));
-      return;
+    @Override
+    public void roll(Frame frame, BowlPin fallenPins) {
+        if (hasFirstBowlPins()) {
+            if (fallenPins.isSpare(firstBowlPins)) {
+                frame.changeState(new Spare(firstBowlPins, fallenPins));
+                return;
+            }
+
+            if (fallenPins.isGutter()) {
+                frame.changeState(new Gutter(firstBowlPins, fallenPins));
+                return;
+            }
+
+            frame.changeState(new Miss(firstBowlPins, fallenPins));
+            return;
+        }
+
+        if (fallenPins.isStrike()) {
+            frame.changeState(new Strike(fallenPins));
+            return;
+        }
+
+        if (fallenPins.isGutter()) {
+            frame.changeState(new Gutter(fallenPins));
+            return;
+        }
+
+        firstBowlPins = fallenPins;
     }
 
-    if (fallenPins.isGutter()) {
-      frame.changeState(new Gutter(fallenPins));
-      return;
+    private boolean hasFirstBowlPins() {
+        return firstBowlPins != null;
     }
 
-    firstBowlPins = fallenPins;
-  }
+    @Override
+    public boolean isEnd(Frame frame) {
+        return false;
+    }
 
-  private boolean hasFirstBowlPins() {
-    return firstBowlPins != null;
-  }
+    @Override
+    public int getScore() {
+        return firstBowlPins.getPins();
+    }
 
-  @Override
-  public boolean isEnd(Frame frame) {
-    return false;
-  }
-
-  @Override
-  public int getScore() {
-    return firstBowlPins.getPins();
-  }
-
-  @Override
-  public String toString() {
-    return firstBowlPins + "";
-  }
+    @Override
+    public String toString() {
+        return firstBowlPins + "";
+    }
 }

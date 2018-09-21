@@ -6,38 +6,38 @@ import domain.state.State;
 
 public class NormalFrame implements Frame {
 
-  private State state;
+    private State state;
 
-  public NormalFrame() {
-    state = new NoneState();
-  }
+    public NormalFrame() {
+        state = new NoneState();
+    }
 
-  public void changeState(State state) {
-    this.state = state;
-  }
+    public void changeState(State state) {
+        this.state = state;
+    }
 
-  @Override
-  public void roll(BowlPin bowlPin) {
-    state.roll(this, bowlPin);
-  }
+    @Override
+    public void roll(BowlPin bowlPin) {
+        state.roll(this, bowlPin);
+    }
 
-  @Override
-  public int getScore() {
-    return state.getScore();
-  }
+    @Override
+    public int getScore() {
+        return state.getScore();
+    }
 
-  @Override
-  public boolean isFrameEnd() {
-    return state.isEnd(this);
-  }
+    @Override
+    public boolean isFrameEnd() {
+        return state.isEnd(this);
+    }
 
-  public String getResult() {
-    return state.toString();
-  }
+    public String getResult() {
+        return state.toString();
+    }
 
-  @Override
-  public boolean isFinalFrame() {
-    return false;
-  }
+    @Override
+    public boolean isFinalFrame() {
+        return false;
+    }
 
 }
